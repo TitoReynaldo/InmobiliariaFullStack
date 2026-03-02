@@ -1,0 +1,20 @@
+$gitignoreContent = @"
+# .NET Core
+bin/
+obj/
+appsettings.Development.json
+
+# Node.js / Vue / Vite
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# IDEs y Entornos OS
+.vs/
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+"@
+Set-Content -Path .gitignore -Value $gitignoreContent -Encoding UTF8
