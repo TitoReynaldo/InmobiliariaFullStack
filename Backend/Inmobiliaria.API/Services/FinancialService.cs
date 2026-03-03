@@ -28,7 +28,7 @@ namespace Inmobiliaria.API.Services
             if (input.AplicaBonoBuenPagador)
             {
                 var bono = await _context.Maestrobonos
-                    .FirstOrDefaultAsync(b => input.PrecioVivienda >= b.ValorViviendaMin && input.PrecioVivienda <= b.ValorViviendaMax);
+                    .FirstOrDefaultAsync(b => b.TipoBono == "Bono Buen Pagador" && input.PrecioVivienda >= b.ValorViviendaMin && input.PrecioVivienda <= b.ValorViviendaMax);
                 
                 if (bono != null)
                 {
@@ -38,7 +38,13 @@ namespace Inmobiliaria.API.Services
 
             if (input.AplicaBonoVerde)
             {
-         
+                var bonoVerde = await _context.Maestrobonos
+                    .FirstOrDefaultAsync(b => b.TipoBono == "Bono Verde" && input.PrecioVivienda >= b.ValorViviendaMin && input.PrecioVivienda <= b.ValorViviendaMax);
+                
+                if (bonoVerde != null)
+                {
+                    montoPrestamo -= (double)bonoVerde.ValorBono;
+                }
             }
 
             double gastosIniciales = (double)(input.CostesNotariales + input.CostesRegistrales + input.Tasacion);

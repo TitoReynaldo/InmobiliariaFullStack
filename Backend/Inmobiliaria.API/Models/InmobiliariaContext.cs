@@ -82,13 +82,40 @@ public partial class InmobiliariaContext : DbContext
             entity.ToTable("configfinanciera");
 
             entity.Property(e => e.ConfigId).HasColumnName("ConfigID");
-            entity.Property(e => e.NombreBanco).HasMaxLength(50);
+            entity.Property(e => e.CostesNotariales)
+                .HasPrecision(30, 15)
+                .HasDefaultValueSql("'0.000000000000000'");
+            entity.Property(e => e.CostesRegistrales)
+                .HasPrecision(30, 15)
+                .HasDefaultValueSql("'0.000000000000000'");
+            entity.Property(e => e.CuotaInicial).HasPrecision(30, 15);
+            entity.Property(e => e.DiasPorAnio).HasDefaultValueSql("'360'");
+            entity.Property(e => e.DiasPorPeriodo).HasDefaultValueSql("'30'");
+            entity.Property(e => e.GastosAdministracion)
+                .HasPrecision(30, 15)
+                .HasDefaultValueSql("'0.000000000000000'");
+            entity.Property(e => e.MesesGracia).HasDefaultValueSql("'0'");
+            entity.Property(e => e.Moneda)
+                .HasDefaultValueSql("'PEN'")
+                .HasColumnType("enum('PEN','USD')");
             entity.Property(e => e.PorcentajeDesgravamen).HasPrecision(30, 15);
             entity.Property(e => e.PorcentajeSeguroInmueble).HasPrecision(30, 15);
+            entity.Property(e => e.Portes)
+                .HasPrecision(30, 15)
+                .HasDefaultValueSql("'0.000000000000000'");
+            entity.Property(e => e.TasaDescuento)
+                .HasPrecision(30, 15)
+                .HasDefaultValueSql("'12.500000000000000'");
             entity.Property(e => e.TasaInteres).HasPrecision(30, 15);
+            entity.Property(e => e.Tasacion)
+                .HasPrecision(30, 15)
+                .HasDefaultValueSql("'0.000000000000000'");
+            entity.Property(e => e.TipoGracia)
+                .HasDefaultValueSql("'Sin Gracia'")
+                .HasColumnType("enum('Sin Gracia','Parcial','Total')");
             entity.Property(e => e.TipoTasa)
-                .HasDefaultValueSql("'Efectiva'")
-                .HasColumnType("enum('Nominal','Efectiva')");
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'Efectiva'");
         });
 
         modelBuilder.Entity<Detallecronograma>(entity =>
@@ -170,28 +197,15 @@ public partial class InmobiliariaContext : DbContext
             entity.Property(e => e.SimulacionId).HasColumnName("SimulacionID");
             entity.Property(e => e.ClienteId).HasColumnName("ClienteID");
             entity.Property(e => e.ConfigId).HasColumnName("ConfigID");
-            entity.Property(e => e.CuotaInicial).HasPrecision(30, 15);
             entity.Property(e => e.FechaSimulacion)
                 .HasDefaultValueSql("CURRENT_TIMESTAMP")
                 .HasColumnType("datetime");
-            entity.Property(e => e.MesesGracia).HasDefaultValueSql("'0'");
-            entity.Property(e => e.Moneda)
-                .HasDefaultValueSql("'PEN'")
-                .HasColumnType("enum('PEN','USD')");
             entity.Property(e => e.MontoPrestamo).HasPrecision(30, 15);
             entity.Property(e => e.PropiedadId).HasColumnName("PropiedadID");
             entity.Property(e => e.TasaEfectivaAnual).HasPrecision(30, 15);
-            entity.Property(e => e.TasaSeguroDesgravamen).HasPrecision(30, 15);
-            entity.Property(e => e.TasaSeguroInmueble).HasPrecision(30, 15);
             entity.Property(e => e.Tcea)
                 .HasPrecision(30, 15)
                 .HasColumnName("TCEA");
-            entity.Property(e => e.TipoAmortizacion)
-                .HasMaxLength(50)
-                .HasDefaultValueSql("'Francesa'");
-            entity.Property(e => e.TipoGracia)
-                .HasDefaultValueSql("'Sin Gracia'")
-                .HasColumnType("enum('Sin Gracia','Parcial','Total')");
             entity.Property(e => e.Tir)
                 .HasPrecision(30, 15)
                 .HasColumnName("TIR");

@@ -5,6 +5,10 @@ export const SimulacionService = {
     return api.post('/simulaciones/calcular', datos)
   },
 
+  actualizar(id, datos) {
+    return api.put(`/simulaciones/actualizar/${id}`, datos)
+  },
+
   obtenerHistorial() {
     return api.get('/simulaciones/historial')
   },

@@ -66,10 +66,6 @@ const recrearSimulacion = async (resumen) => {
   }
 }
 
-const editarSimulacion = (fila) => {
-  simulacionStore.cargarParaEdicion(fila)
-  router.push({ name: 'simulador' })
-}
 
 const confirmarEliminacion = async (id) => {
   if (window.confirm("¿Está seguro de eliminar esta simulación de forma permanente?")) {
@@ -171,7 +167,7 @@ const descargarPDF = async (simulacion) => {
     currentY += 25
 
     const cuotaMonto = datosInput.precioVivienda * (datosInput.cuotaInicialPorcentaje / 100)
-    const montoFinanciar = datosInput.precioVivienda - cuotaMonto
+    const montoFinanciar = simulacion.montoPrestamo
 
     autoTable(doc, {
       startY: currentY,
@@ -387,17 +383,11 @@ onMounted(() => {
               </span>
             </td>
             <td>{{ formatDate(s.fechaSimulacion) }}</td>
-            <td>{{ formatCurrency(s.precioVenta, s.moneda) }}</td>
+            <td class="col-monto">{{ formatCurrency(s.precioVenta || (s.montoPrestamo + s.cuotaInicial), s.moneda) }}</td>
             <td class="col-monto">{{ formatCurrency(s.montoPrestamo, s.moneda) }}</td>
             <td class="col-tasa">{{ Number((s.tcea ?? s.Tcea) * 100).toFixed(2) }}%</td>
             <td class="col-actions">
-              <button
-                @click.stop="editarSimulacion(s)"
-                class="btn-editar"
-                title="Editar Simulación"
-              >
-                ✏️ Editar
-              </button>
+
               <button
                 @click.stop="descargarPDF(s)"
                 class="btn-pdf"

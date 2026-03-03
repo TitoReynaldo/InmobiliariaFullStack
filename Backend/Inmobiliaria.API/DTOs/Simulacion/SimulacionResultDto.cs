@@ -28,6 +28,7 @@ namespace Inmobiliaria.API.DTOs.Simulacion
         public decimal SaldoInicial { get; set; }
         public decimal Amortizacion { get; set; }
         public decimal Interes { get; set; }
+        public decimal Cuota { get; set; }
         public decimal SegDesgravamen { get; set; }
         public decimal SeguroRiesgo { get; set; }
         public decimal SegInmueble { get; set; }

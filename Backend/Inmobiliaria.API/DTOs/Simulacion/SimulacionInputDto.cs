@@ -1,19 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace Inmobiliaria.API.DTOs.Simulacion
 {
     public class SimulacionInputDto
     {
         [Required]
-        [Range(1, double.MaxValue, ErrorMessage = "El precio de la vivienda debe ser mayor a 0.")]
+        [Range(typeof(decimal), "1", "79228162514264337593543950335", ErrorMessage = "El precio de la vivienda debe ser mayor a 0.")]
         public decimal PrecioVivienda { get; set; }
 
         [Required]
-        [Range(0, double.MaxValue, ErrorMessage = "La cuota inicial no puede ser negativa.")]
+        [Range(typeof(decimal), "0", "79228162514264337593543950335", ErrorMessage = "La cuota inicial no puede ser negativa.")]
         public decimal CuotaInicial { get; set; }
 
         [Required]
-        [Range(1, 100, ErrorMessage = "La tasa de interés debe estar entre 1% y 100%.")]
+        [Range(typeof(decimal), "0.0001", "100.0", ErrorMessage = "La tasa de interés debe estar entre 0.0001% y 100%.")]
         public decimal TasaInteres { get; set; }
 
         [Required]
@@ -64,5 +65,5 @@ namespace Inmobiliaria.API.DTOs.Simulacion
         public string? UbicacionGeografica { get; set; }
         public string? TipoInmueble { get; set; }
         public decimal? AreaTotal { get; set; }
-        }
-        }
+    }
+}

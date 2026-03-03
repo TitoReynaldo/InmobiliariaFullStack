@@ -75,35 +75,7 @@ const calcularSimulacion = async () => {
 }
 
 const limpiarFormulario = () => {
-  simulacionStore.input.precioVivienda = null;
-  simulacionStore.input.valorTasacion = null;
-  simulacionStore.input.cuotaInicialPorcentaje = null;
-  simulacionStore.input.tasaInteres = null;
-  simulacionStore.input.tipoTasa = 'Efectiva';
-  simulacionStore.input.plazoMeses = null;
-  simulacionStore.input.mesesPorCuota = 1;
-  simulacionStore.input.diasPorPeriodo = 30;
-  simulacionStore.input.diasPorAnio = 360;
-  simulacionStore.input.tipoGracia = 'Sin Gracia';
-  simulacionStore.input.periodosGracia = 0;
-  simulacionStore.input.costesNotariales = 0;
-  simulacionStore.input.costesRegistrales = 0;
-  simulacionStore.input.tasacion = 0;
-  simulacionStore.input.portes = 0;
-  simulacionStore.input.gastosAdministracion = 0;
-  simulacionStore.input.seguroDesgravamenMensual = 0;
-  simulacionStore.input.seguroRiesgoMensual = 0;
-  simulacionStore.input.incrementoTasaFutura = 0;
-  simulacionStore.input.cuotaInicioAjuste = 0;
-  simulacionStore.input.tipoPrepago = 'ReducirCuota';
-  simulacionStore.input.pagosAnticipados = {};
-  simulacionStore.input.tasaDescuento = 0;
-  simulacionStore.input.aplicaBonoBuenPagador = false;
-  simulacionStore.input.aplicaBonoVerde = false;
-  simulacionStore.input.aplicaTechoPropio = false;
-  simulacionStore.input.moneda = 'PEN';
-  simulacionStore.resultado = null;
-  simulacionStore.errorMsg = '';
+  simulacionStore.resetearResultados();
 }
 
 const chartData = computed(() => {
@@ -168,7 +140,7 @@ const formatTasa = (value) => {
 
       <form @submit.prevent="calcularSimulacion" class="simulador-form">
         <div class="fieldsets-grid">
-          <fieldset class="form-fieldset">
+          <fieldset class="form-fieldset" :disabled="simulacionStore.modoLectura">
             <legend>Datos del Préstamo</legend>
             <div class="form-row">
               <div class="form-group">
@@ -319,7 +291,7 @@ const formatTasa = (value) => {
             </div>
           </fieldset>
 
-          <fieldset class="form-fieldset">
+          <fieldset class="form-fieldset" :disabled="simulacionStore.modoLectura">
             <legend>Costes/Gastos Iniciales</legend>
               <div class="form-row">
                 <div class="form-group">
@@ -372,7 +344,7 @@ const formatTasa = (value) => {
               </div>
           </fieldset>
 
-          <fieldset class="form-fieldset">
+          <fieldset class="form-fieldset" :disabled="simulacionStore.modoLectura">
             <legend>Datos del Cliente y Propiedad</legend>
             <div class="form-row">
               <div class="form-group">
@@ -415,7 +387,7 @@ const formatTasa = (value) => {
             </div>
           </fieldset>
 
-          <fieldset class="form-fieldset">
+          <fieldset class="form-fieldset" :disabled="simulacionStore.modoLectura">
             <legend>Costo de Oportunidad y Acciones</legend>
               <div class="form-row">
                 <div class="form-group">
@@ -514,19 +486,22 @@ const formatTasa = (value) => {
               </div>
             </div>
 
-            <div class="action-container">
-              <button type="submit" class="btn-submit" :disabled="simulacionStore.loading">
-                {{ simulacionStore.loading ? 'Procesando...' : 'Generar Simulación' }}
-              </button>
-              <button type="button" @click="limpiarFormulario" title="Restablecer todos los campos" style="margin-top: 0.75rem; width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--border-color); color: var(--text-muted, #9ca3af); border-radius: 6px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
-                Limpiar Datos
-              </button>
-            </div>
-
-            <div v-if="simulacionStore.errorMsg" class="error-alert">
-              {{ simulacionStore.errorMsg }}
-            </div>
           </fieldset>
+        </div> <div class="action-container" style="margin-top: 2.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+          <button type="submit" class="btn-submit" :disabled="simulacionStore.loading || simulacionStore.modoLectura">
+            {{ simulacionStore.loading ? 'Procesando...' : (simulacionStore.modoEdicion ? 'Actualizar Simulación' : 'Generar Simulación') }}
+          </button>
+          
+          <button v-if="simulacionStore.modoLectura" type="button" @click="simulacionStore.habilitarEdicion()" title="Desbloquear campos para sobrescribir este registro" style="margin-top: 0.75rem; width: 100%; padding: 0.8rem; background-color: #ea580c; border: none; color: #ffffff; border-radius: 6px; font-size: 0.95rem; font-weight: 700; cursor: pointer; transition: all 0.3s;">
+            🔓 Desbloquear para Edición
+          </button>
+          <button type="button" @click="limpiarFormulario" title="Restablecer todos los campos" style="margin-top: 0.75rem; width: 100%; padding: 0.5rem; background: transparent; border: 1px solid var(--border-color); color: var(--text-muted, #9ca3af); border-radius: 6px; font-size: 0.85rem; cursor: pointer; transition: all 0.2s;">
+            Crear Nueva Simulación (Reset)
+          </button>
+        </div>
+
+        <div v-if="simulacionStore.errorMsg" class="error-alert">
+          {{ simulacionStore.errorMsg }}
         </div>
       </form>
     </section>

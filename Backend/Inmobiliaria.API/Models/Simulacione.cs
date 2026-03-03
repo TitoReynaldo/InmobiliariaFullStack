@@ -15,13 +15,7 @@ public partial class Simulacione
 
     public decimal MontoPrestamo { get; set; }
 
-    public decimal CuotaInicial { get; set; }
-
-    public int PlazoMeses { get; set; }
-
     public decimal TasaEfectivaAnual { get; set; }
-
-    public DateTime? FechaSimulacion { get; set; }
 
     public decimal? Van { get; set; }
 
@@ -29,17 +23,7 @@ public partial class Simulacione
 
     public decimal? Tcea { get; set; }
 
-    public string? TipoGracia { get; set; }
-
-    public int? MesesGracia { get; set; }
-
-    public string? Moneda { get; set; }
-
-    public string? TipoAmortizacion { get; set; }
-
-    public decimal? TasaSeguroDesgravamen { get; set; }
-
-    public decimal? TasaSeguroInmueble { get; set; }
+    public DateTime? FechaSimulacion { get; set; }
 
     public virtual Cliente Cliente { get; set; } = null!;
 

@@ -2411,11 +2411,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\titor\\source\\repos\\Inmobiliaria\\Backend\\Inmobiliaria.API\\Inmobiliaria.API.csproj",
+      "projectUniqueName": "C:\\Users\\titor\\source\\repos\\InmobiliariaFullStack\\Backend\\Inmobiliaria.API\\Inmobiliaria.API.csproj",
       "projectName": "Inmobiliaria.API",
-      "projectPath": "C:\\Users\\titor\\source\\repos\\Inmobiliaria\\Backend\\Inmobiliaria.API\\Inmobiliaria.API.csproj",
+      "projectPath": "C:\\Users\\titor\\source\\repos\\InmobiliariaFullStack\\Backend\\Inmobiliaria.API\\Inmobiliaria.API.csproj",
       "packagesPath": "C:\\Users\\titor\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\titor\\source\\repos\\Inmobiliaria\\Backend\\Inmobiliaria.API\\obj\\",
+      "outputPath": "C:\\Users\\titor\\source\\repos\\InmobiliariaFullStack\\Backend\\Inmobiliaria.API\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

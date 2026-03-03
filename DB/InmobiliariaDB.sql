@@ -45,13 +45,23 @@ CREATE TABLE Propiedades (
 
 CREATE TABLE ConfigFinanciera (
     ConfigID INT AUTO_INCREMENT PRIMARY KEY,
-    NombreBanco VARCHAR(50) NOT NULL,
-    TipoTasa ENUM('Nominal', 'Efectiva') DEFAULT 'Efectiva',
+    Moneda ENUM('PEN', 'USD') DEFAULT 'PEN',
+    CuotaInicial DECIMAL(30, 15) NOT NULL,
+    PlazoMeses INT NOT NULL,
+    TipoTasa VARCHAR(50) DEFAULT 'Efectiva',
     TasaInteres DECIMAL(30, 15) NOT NULL,
+    DiasPorPeriodo INT DEFAULT 30,
+    DiasPorAnio INT DEFAULT 360,
+    TipoGracia ENUM('Sin Gracia', 'Parcial', 'Total') DEFAULT 'Sin Gracia',
+    MesesGracia INT DEFAULT 0,
+    CostesNotariales DECIMAL(30, 15) DEFAULT 0,
+    CostesRegistrales DECIMAL(30, 15) DEFAULT 0,
+    Tasacion DECIMAL(30, 15) DEFAULT 0,
+    Portes DECIMAL(30, 15) DEFAULT 0,
+    GastosAdministracion DECIMAL(30, 15) DEFAULT 0,
     PorcentajeDesgravamen DECIMAL(30, 15) NOT NULL,
     PorcentajeSeguroInmueble DECIMAL(30, 15) NOT NULL,
-    PlazoMinimoMeses INT NOT NULL,
-    PlazoMaximoMeses INT NOT NULL
+    TasaDescuento DECIMAL(30, 15) DEFAULT 12.5
 );
 
 CREATE TABLE MaestroBonos (
@@ -68,19 +78,11 @@ CREATE TABLE Simulaciones (
     PropiedadID INT NOT NULL,
     ConfigID INT NOT NULL,
     MontoPrestamo DECIMAL(30, 15) NOT NULL,
-    CuotaInicial DECIMAL(30, 15) NOT NULL,
-    PlazoMeses INT NOT NULL,
     TasaEfectivaAnual DECIMAL(30, 15) NOT NULL,
-    FechaSimulacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     VAN DECIMAL(30, 15) NULL,
     TIR DECIMAL(30, 15) NULL,
     TCEA DECIMAL(30, 15) NULL,
-    TipoGracia ENUM('Sin Gracia', 'Parcial', 'Total') DEFAULT 'Sin Gracia',
-    MesesGracia INT DEFAULT 0,
-    Moneda ENUM('PEN', 'USD') DEFAULT 'PEN',
-    TipoAmortizacion VARCHAR(50) DEFAULT 'Francesa',
-    TasaSeguroDesgravamen DECIMAL(30, 15) NULL,
-    TasaSeguroInmueble DECIMAL(30, 15) NULL,
+    FechaSimulacion DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (ClienteID) REFERENCES Clientes(ClienteID) ON DELETE CASCADE,
     FOREIGN KEY (PropiedadID) REFERENCES Propiedades(PropiedadID) ON DELETE CASCADE,
     FOREIGN KEY (ConfigID) REFERENCES ConfigFinanciera(ConfigID) ON DELETE CASCADE
@@ -103,7 +105,10 @@ CREATE TABLE DetalleCronograma (
 );
 
 INSERT INTO Usuarios (Username, PasswordHash, Rol) VALUES ('admin', 'admin123', 'Admin');
-INSERT INTO ConfigFinanciera (NombreBanco, TipoTasa, TasaInteres, PorcentajeDesgravamen, PorcentajeSeguroInmueble, PlazoMinimoMeses, PlazoMaximoMeses) 
-VALUES ('Banco Continental', 'Efectiva', 0.125000000000000, 0.000500000000000, 0.000200000000000, 60, 300);
-INSERT INTO MaestroBonos (TipoBono, ValorViviendaMin, ValorViviendaMax, ValorBono) 
-VALUES ('Bono Buen Pagador', 65000.00, 120000.00, 24000.00), ('Bono Verde', 0, 343900.00, 5000.00);
+
+INSERT INTO MaestroBonos (TipoBono, ValorViviendaMin, ValorViviendaMax, ValorBono) VALUES
+('Bono Buen Pagador', 68800.00, 98100.00, 27400.00),
+('Bono Buen Pagador', 98100.01, 146900.00, 22800.00),
+('Bono Buen Pagador', 146900.01, 244600.00, 20900.00),
+('Bono Buen Pagador', 244600.01, 362100.00, 7800.00),
+('Bono Verde', 0.00, 362100.00, 5500.00);
