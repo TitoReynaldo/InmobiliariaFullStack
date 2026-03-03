@@ -41,5 +41,7 @@ public partial class Configfinanciera
 
     public decimal? TasaDescuento { get; set; }
 
+    public string? PrepagosJson { get; set; }
+
     public virtual ICollection<Simulacione> Simulaciones { get; set; } = new List<Simulacione>();
 }

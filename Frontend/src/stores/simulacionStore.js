@@ -152,10 +152,10 @@ export const useSimulacionStore = defineStore('simulacion', () => {
 
   const _poblarInputParaEdicion = (datos) => {
     input.value.direccionPropiedad = datos.direccionPropiedad || datos.DireccionPropiedad || '';
-    input.value.precioVivienda = Number(datos.precioVenta ?? datos.PrecioVenta ?? datos.tasacionActivo ?? datos.TasacionActivo ?? input.value.precioVivienda);
+    input.value.precioVivienda = Number(datos.precioVivienda ?? datos.PrecioVivienda ?? datos.precioVenta ?? datos.PrecioVenta ?? input.value.precioVivienda);
     input.value.plazoMeses = Number(datos.plazo ?? datos.Plazo ?? datos.plazoMeses ?? datos.PlazoMeses ?? input.value.plazoMeses);
     input.value.moneda = datos.moneda ?? datos.Moneda ?? input.value.moneda;
-    input.value.valorTasacion = Number(datos.valorTasacion ?? datos.ValorTasacion ?? input.value.precioVivienda);
+    input.value.valorTasacion = Number(datos.valorTasacion ?? datos.ValorTasacion ?? datos.tasacionActivo ?? datos.TasacionActivo ?? input.value.valorTasacion);
     input.value.cuotaInicial = Number(datos.cuotaInicial ?? datos.CuotaInicial ?? 0);
 
     input.value.tasaInteres = Number(datos.tasaEfectivaAnual ?? datos.TasaEfectivaAnual ?? datos.tasaInteres ?? datos.TasaInteres ?? input.value.tasaInteres);
@@ -175,12 +175,20 @@ export const useSimulacionStore = defineStore('simulacion', () => {
     input.value.tasacion = Number(datos.tasacion ?? datos.Tasacion ?? input.value.tasacion);
 
     input.value.aplicaBonoVerde = Boolean(datos.aplicaBonoVerde || datos.AplicaBonoVerde || false);
-    input.value.aplicaBonoBuenPagador = Boolean(datos.flagBFH || datos.FlagBFH || false);
+    input.value.aplicaBonoBuenPagador = Boolean(datos.aplicaBonoBuenPagador || datos.AplicaBonoBuenPagador || datos.flagBFH || datos.FlagBFH || false);
 
     input.value.incrementoTasaFutura = Number(datos.incrementoTasaFutura ?? datos.IncrementoTasaFutura ?? 0);
     input.value.cuotaInicioAjuste = Number(datos.cuotaInicioAjuste ?? datos.CuotaInicioAjuste ?? 0);
     input.value.tipoPrepago = datos.tipoPrepago ?? datos.TipoPrepago ?? 'ReducirCuota';
     input.value.tasaDescuento = Number(datos.tasaDescuento ?? datos.TasaDescuento ?? 12.5);
+
+    input.value.mesesPorCuota = Number(datos.mesesPorCuota ?? datos.MesesPorCuota ?? input.value.mesesPorCuota ?? 1);
+    input.value.pagosAnticipados = datos.pagosAnticipados ?? datos.PagosAnticipados ?? {};
+    input.value.ingresoNeto = Number(datos.ingresoNeto ?? datos.IngresoNeto ?? input.value.ingresoNeto);
+    input.value.situacionLaboral = datos.situacionLaboral ?? datos.SituacionLaboral ?? input.value.situacionLaboral;
+    input.value.ubicacionGeografica = datos.ubicacionGeografica ?? datos.UbicacionGeografica ?? input.value.ubicacionGeografica;
+    input.value.tipoInmueble = datos.tipoInmueble ?? datos.TipoInmueble ?? input.value.tipoInmueble;
+    input.value.areaTotal = Number(datos.areaTotal ?? datos.AreaTotal ?? input.value.areaTotal);
 
     const precio = Number(datos.precioVenta ?? datos.PrecioVenta ?? input.value.precioVivienda);
     const prestamo = Number(datos.montoPrestamo ?? datos.MontoPrestamo ?? (precio - input.value.cuotaInicial));

@@ -61,7 +61,8 @@ CREATE TABLE ConfigFinanciera (
     GastosAdministracion DECIMAL(30, 15) DEFAULT 0,
     PorcentajeDesgravamen DECIMAL(30, 15) NOT NULL,
     PorcentajeSeguroInmueble DECIMAL(30, 15) NOT NULL,
-    TasaDescuento DECIMAL(30, 15) DEFAULT 12.5
+    TasaDescuento DECIMAL(30, 15) DEFAULT 12.5,
+    PrepagosJson TEXT NULL
 );
 
 CREATE TABLE MaestroBonos (
