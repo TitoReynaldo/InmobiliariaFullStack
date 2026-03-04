@@ -144,7 +144,7 @@ namespace Inmobiliaria.API.Services
             for (int i = 0; i < maxIter; i++)
             {
                 double f0 = Npv(x0, flujos);
-                double f1 = Npv(x1, flujos);
+                double f1 = Npv(x1, flujos);//TRAS
 
                 if (Math.Abs(f1 - f0) < 1e-14) break;
 
@@ -250,7 +250,7 @@ namespace Inmobiliaria.API.Services
             return double.NaN;
         }
 
-        public decimal CalcularTCEA(double tirPeriodo, double periodosPorAnio)
+        public decimal CalcularTCEA(double tirPeriodo, double periodosPorAnio)//TRAS
         {
             return (decimal)Math.Round(Math.Pow(1 + tirPeriodo, periodosPorAnio) - 1, 15);
         }
