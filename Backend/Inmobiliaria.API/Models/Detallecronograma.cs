@@ -30,4 +30,4 @@ public partial class Detallecronograma
     public decimal SaldoFinal { get; set; }
 
     public virtual Simulacione Simulacion { get; set; } = null!;
-}
+}//TRAS

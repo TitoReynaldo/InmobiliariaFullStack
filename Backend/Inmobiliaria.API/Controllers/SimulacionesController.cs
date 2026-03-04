@@ -144,7 +144,7 @@ namespace Inmobiliaria.API.Controllers
         public async Task<IActionResult> ObtenerHistorial()
         {
             var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int usuarioId)) return Unauthorized();
+            if (string.IsNullOrEmpty(userIdClaim) || !int.TryParse(userIdClaim, out int usuarioId)) return Unauthorized();//TRAS
 
             var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.UsuarioId == usuarioId);
             if (cliente == null) return Ok(new List<object>());
@@ -156,7 +156,7 @@ namespace Inmobiliaria.API.Controllers
                 .Include(s => s.Detallecronogramas)
                 .Where(s => s.ClienteId == cliente.ClienteId)
                 .OrderByDescending(s => s.FechaSimulacion)
-                .ToListAsync(); // Extracción forzada a RAM
+                .ToListAsync();
 
             var historial = simulacionesDb.Select(s => new
             {

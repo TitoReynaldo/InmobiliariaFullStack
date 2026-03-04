@@ -144,7 +144,7 @@ export const useSimulacionStore = defineStore('simulacion', () => {
   const cargarParaEdicion = (datos) => {
     modoLectura.value = false
     modoEdicion.value = true
-    simulacionId.value = datos.simulacionId || datos.SimulacionId
+    simulacionId.value = datos.simulacionId || datos.SimulacionId//TRAS
 
     _poblarInputParaEdicion(datos)
     resultado.value = null

@@ -125,9 +125,9 @@ namespace Inmobiliaria.API.Services
             flujosCajaDouble.AddRange(resultado.Cronograma.Select(p => (double)p.CuotaTotal));
 
             double cokAnual = (double)(input.TasaDescuento / 100m);
-            double cokMensual = Math.Pow(1 + cokAnual, (double)diasPorPeriodo / diasPorAnio) - 1;
+            double cokPeriodoReal = Math.Pow(1 + cokAnual, (double)diasPorPeriodoReal / dAnio) - 1;
 
-            resultado.VAN = (decimal)Math.Round(CalcularVANativo(cokMensual, flujosCajaDouble), 15);
+            resultado.VAN = (decimal)Math.Round(CalcularVANativo(cokPeriodoReal, flujosCajaDouble), 15);
 
             return resultado;
         }
@@ -250,9 +250,9 @@ namespace Inmobiliaria.API.Services
             return double.NaN;
         }
 
-        public decimal CalcularTCEA(double tirMensual, double periodosPorAnio)
+        public decimal CalcularTCEA(double tirPeriodo, double periodosPorAnio)
         {
-            return (decimal)Math.Round(Math.Pow(1 + tirMensual, periodosPorAnio) - 1, 15);
+            return (decimal)Math.Round(Math.Pow(1 + tirPeriodo, periodosPorAnio) - 1, 15);
         }
 
         private List<DetalleCronogramaDto> GenerarCronogramaFrances(

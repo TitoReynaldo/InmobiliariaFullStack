@@ -16,4 +16,4 @@ public partial class Usuario
     public DateTime? FechaRegistro { get; set; }
 
     public virtual ICollection<Cliente> Clientes { get; set; } = new List<Cliente>();
-}
+}//TRAS

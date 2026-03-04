@@ -7,7 +7,7 @@ const authStore = useAuthStore()
 const router = useRouter()
 
 const isDarkMode = ref(false)
-
+//TRAS
 const toggleDarkMode = () => {
   isDarkMode.value = !isDarkMode.value
   if (isDarkMode.value) {

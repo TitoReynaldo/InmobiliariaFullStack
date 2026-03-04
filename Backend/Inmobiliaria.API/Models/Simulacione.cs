@@ -32,4 +32,4 @@ public partial class Simulacione
     public virtual ICollection<Detallecronograma> Detallecronogramas { get; set; } = new List<Detallecronograma>();
 
     public virtual Propiedade Propiedad { get; set; } = null!;
-}
+}//TRAS

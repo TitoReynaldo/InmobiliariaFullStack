@@ -66,4 +66,4 @@ namespace Inmobiliaria.API.DTOs.Simulacion
         public string? TipoInmueble { get; set; }
         public decimal? AreaTotal { get; set; }
     }
-}
+}//TRAS

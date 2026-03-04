@@ -32,4 +32,4 @@ public partial class Propiedade
     public string? MonedaBase { get; set; }
 
     public virtual ICollection<Simulacione> Simulaciones { get; set; } = new List<Simulacione>();
-}
+}//TRAS

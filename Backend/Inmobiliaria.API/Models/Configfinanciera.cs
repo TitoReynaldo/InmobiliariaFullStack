@@ -44,4 +44,4 @@ public partial class Configfinanciera
     public string? PrepagosJson { get; set; }
 
     public virtual ICollection<Simulacione> Simulaciones { get; set; } = new List<Simulacione>();
-}
+}//TRAS

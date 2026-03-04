@@ -112,4 +112,4 @@ INSERT INTO MaestroBonos (TipoBono, ValorViviendaMin, ValorViviendaMax, ValorBon
 ('Bono Buen Pagador', 98100.01, 146900.00, 22800.00),
 ('Bono Buen Pagador', 146900.01, 244600.00, 20900.00),
 ('Bono Buen Pagador', 244600.01, 362100.00, 7800.00),
-('Bono Verde', 0.00, 362100.00, 5500.00);
+('Bono Verde', 0.00, 362100.00, 6300.00);

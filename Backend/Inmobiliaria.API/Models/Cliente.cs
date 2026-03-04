@@ -34,4 +34,4 @@ public partial class Cliente
     public virtual ICollection<Simulacione> Simulaciones { get; set; } = new List<Simulacione>();
 
     public virtual Usuario? Usuario { get; set; }
-}
+}//TRAS

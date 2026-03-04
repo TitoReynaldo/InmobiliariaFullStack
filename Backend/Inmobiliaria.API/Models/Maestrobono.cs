@@ -14,4 +14,4 @@ public partial class Maestrobono
     public decimal ValorViviendaMax { get; set; }
 
     public decimal ValorBono { get; set; }
-}
+}//TRAS

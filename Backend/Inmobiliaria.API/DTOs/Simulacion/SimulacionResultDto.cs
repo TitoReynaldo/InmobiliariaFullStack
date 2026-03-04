@@ -38,4 +38,4 @@ namespace Inmobiliaria.API.DTOs.Simulacion
         public decimal SaldoFinal { get; set; }
         public decimal TasaPeriodo { get; set; }
     }
-}
+}//TRAS

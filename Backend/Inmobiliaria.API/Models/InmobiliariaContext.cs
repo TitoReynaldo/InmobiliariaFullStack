@@ -249,4 +249,4 @@ public partial class InmobiliariaContext : DbContext
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-}
+}//TRAS
