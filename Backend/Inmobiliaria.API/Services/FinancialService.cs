@@ -12,7 +12,7 @@ namespace Inmobiliaria.API.Services
     {
         private readonly InmobiliariaContext _context;
         private const int MaxIter = 1000;
-        private const double Epsilon = 1e-7;
+        private const double Epsilon = 1e-14;
 
         public FinancialService(InmobiliariaContext context)
         {
@@ -23,7 +23,7 @@ namespace Inmobiliaria.API.Services
         {
             var resultado = new SimulacionResultDto();
 
-            double montoPrestamo = (double)(input.PrecioVivienda - (input.PrecioVivienda * (input.CuotaInicialPorcentaje / 100)));
+            double montoPrestamo = (double)(input.PrecioVivienda - input.CuotaInicial);
 
             if (input.AplicaBonoBuenPagador)
             {
@@ -102,28 +102,70 @@ namespace Inmobiliaria.API.Services
             resultado.TotalPortes = (decimal)Math.Round((double)resultado.Cronograma.Sum(x => x.Portes), 15);
             resultado.TotalGastosAdmin = (decimal)Math.Round((double)resultado.Cronograma.Sum(x => x.GastosAdministracion), 15);
 
-            var flujosCaja = new List<double> { -(montoPrestamo - gastosIniciales) };
-            flujosCaja.AddRange(resultado.Cronograma.Select(p => (double)p.CuotaTotal));
+            var flujosDeCaja = new List<decimal>();
+            flujosDeCaja.Add((decimal)-montoPrestamo);
 
-            double tirMensual = CalcularTIRnativo(flujosCaja);
-            
-            if (double.IsNaN(tirMensual))
+            foreach (var cuota in resultado.Cronograma)
             {
-                resultado.TIR = 0m;
-                resultado.TCEA = 0m;
+                flujosDeCaja.Add(cuota.CuotaTotal);
             }
-            else
-            {
-                resultado.TIR = (decimal)Math.Round(tirMensual, 15);
-                resultado.TCEA = CalcularTCEA(tirMensual, periodosPorAnio);
-            }
+
+            decimal tirPeriodo = CalcularTIR(flujosDeCaja);
+
+            int diasPorPeriodoReal = (input.DiasPorPeriodo > 0 ? input.DiasPorPeriodo : 30) * (input.MesesPorCuota > 0 ? input.MesesPorCuota : 1);
+            int dAnio = input.DiasPorAnio > 0 ? input.DiasPorAnio : 360;
+            double factorCapitalizacion = (double)dAnio / (double)diasPorPeriodoReal;
+
+            decimal tcea = (decimal)Math.Pow(1.0 + (double)tirPeriodo, factorCapitalizacion) - 1.0m;
+
+            resultado.TIR = Math.Round(tirPeriodo, 15);
+            resultado.TCEA = Math.Round(tcea, 15);
+
+            var flujosCajaDouble = new List<double> { -montoPrestamo };
+            flujosCajaDouble.AddRange(resultado.Cronograma.Select(p => (double)p.CuotaTotal));
 
             double cokAnual = (double)(input.TasaDescuento / 100m);
             double cokMensual = Math.Pow(1 + cokAnual, (double)diasPorPeriodo / diasPorAnio) - 1;
 
-            resultado.VAN = (decimal)Math.Round(CalcularVANativo(cokMensual, flujosCaja), 15);
+            resultado.VAN = (decimal)Math.Round(CalcularVANativo(cokMensual, flujosCajaDouble), 15);
 
             return resultado;
+        }
+
+        private decimal CalcularTIR(List<decimal> flujos)
+        {
+            if (flujos == null || flujos.Count < 2) return 0m;
+            
+            double x0 = 0.01;
+            double x1 = 0.10;
+            double tol = 1e-9;
+            int maxIter = 1000;
+
+            for (int i = 0; i < maxIter; i++)
+            {
+                double f0 = Npv(x0, flujos);
+                double f1 = Npv(x1, flujos);
+
+                if (Math.Abs(f1 - f0) < 1e-14) break;
+
+                double x2 = x1 - f1 * (x1 - x0) / (f1 - f0);
+                
+                if (Math.Abs(x2 - x1) < tol) return (decimal)x2;
+
+                x0 = x1;
+                x1 = x2;
+            }
+            return 0m;
+        }
+
+        private double Npv(double rate, List<decimal> flujos)
+        {
+            double npv = 0;
+            for (int i = 0; i < flujos.Count; i++)
+            {
+                npv += (double)flujos[i] / Math.Pow(1.0 + rate, i);
+            }
+            return npv;
         }
 
         private decimal ConvertirTasaNominalAEfectiva(decimal tna, double periodosPorAnio)
@@ -150,7 +192,7 @@ namespace Inmobiliaria.API.Services
             }
             return tir;
         }
-//TRAS
+
         private double CalcularTIR_NewtonRaphson(List<double> flujos)
         {
             double tir = 0.01;
@@ -234,7 +276,7 @@ namespace Inmobiliaria.API.Services
                     saldoInicialPeriodo += interes;
                     cuotaTotal = segDesgravamen + montoSeguroRiesgo + portes + gastosAdmin;
                 }
-                else // Parcial
+                else
                 {
                     cuotaTotal = interes + segDesgravamen + montoSeguroRiesgo + portes + gastosAdmin;
                 }
