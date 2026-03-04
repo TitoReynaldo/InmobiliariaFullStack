@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("PermitirFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:4173")
+        policy.WithOrigins("http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:4173","https://inmobiliaria-full-stack-li90ljtp7-titoreynaldos-projects.vercel.app")
               .AllowAnyHeader()
               .AllowAnyMethod()
               .AllowCredentials();
